@@ -50,7 +50,6 @@ legend{padding:0 4px}
 .blink{animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{visibility:hidden}}
 .degbar{height:100%;background:repeating-linear-gradient(90deg,var(--title) 0 10px,transparent 10px 12px)}
-.badge88{width:88px;height:31px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #000;font:700 9px/1.1 Verdana,sans-serif;text-align:center;letter-spacing:.3px}
 .task{display:inline-flex;align-items:center;gap:6px;min-height:36px;min-width:0;max-width:170px;padding:2px 10px;background:#c0c0c0;color:#000;border:2px solid;font:13px Tahoma,Verdana,sans-serif;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .task.on{border-color:#404040 #fff #fff #404040;background:#e3e3e3;font-weight:700}
 .task.off{border-color:#fff #404040 #404040 #fff;box-shadow:inset -1px -1px 0 #808080}
@@ -77,7 +76,8 @@ a.task,a.task:visited,a.task:hover{color:#000;text-decoration:none}
 .pick:focus-visible{border-color:#000;outline:none}
 .tree{display:flex;align-items:center;gap:8px;width:100%;min-height:36px;padding:2px 6px;border:1px dotted transparent;font:13px Tahoma,Verdana,sans-serif;cursor:pointer;text-align:left}
 .tree:focus-visible{border-color:#000;outline:none}
-.giant{margin:0;font-family:"Times New Roman",Times,serif;font-style:italic;font-weight:900;font-size:clamp(56px,12.5vw,176px);line-height:.88;letter-spacing:-2px;color:#ffd400;text-shadow:4px 4px 0 #ff4fb8,9px 9px 0 #00b7c2}
+/* The name picks up where the DOS boot screen left off: same pixel face, one hard shadow */
+.giant{margin:0;font-family:VT323,"Lucida Console",monospace;font-weight:400;font-size:clamp(84px,17vw,240px);line-height:.8;letter-spacing:0;color:#ffd400;text-shadow:.04em .04em 0 #ff4fb8}
 /* Facts in the hero: dark inset panels so they read as information; only buttons are raised */
 .htag{display:inline-flex;align-items:center;gap:8px;min-height:38px;padding:4px 12px 4px 8px;font-size:15px;color:#fff;background:rgba(0,0,0,.55);border:1px solid;border-color:#404040 #9a9a9a #9a9a9a #404040}
 .htag svg{flex:none}
@@ -86,8 +86,12 @@ a.task,a.task:visited,a.task:hover{color:#000;text-decoration:none}
 .htag.hot{background:#ffffe1;color:#000;font-weight:700;border-color:#808080 #fff #fff #808080}
 .led{width:10px;height:10px;flex:none;border-radius:50%;background:#1fd10b;box-shadow:0 0 0 1px #0b5d05,0 0 6px #39ff14}
 .stars{background-color:#05051a;background-image:radial-gradient(#fff 1px,transparent 1.5px),radial-gradient(#9fd8ff 1px,transparent 1.5px);background-size:46px 46px,73px 73px;background-position:0 0,23px 31px}
-.uc{background:repeating-linear-gradient(135deg,#ffd400 0 12px,#111 12px 24px)}
-.stepper .step{flex:1 1 auto}
+/* Five steps on one row; long labels wrap inside their button instead of pushing the last step to a new line */
+.steprow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr) auto) minmax(0,1fr);gap:6px;align-items:stretch}
+.stepper .step{min-width:0;padding:4px 8px;text-align:center;line-height:1.25}
+.stepper .arr{align-self:center}
+/* Phones: too narrow for five across, so stack them; the numbers carry the order */
+@media (max-width:600px){.steprow{grid-template-columns:1fr}.stepper .arr{display:none}}
 .stepper.play .step{animation:stepLit 7.5s 1}
 .stepper.play .step.last{animation:stepFinal .2s forwards}
 @keyframes stepLit{0%,19%{background:var(--title);color:#fff;border-color:#404040 #fff #fff #404040;box-shadow:inset 1px 1px 0 #000}20%,100%{background:#c0c0c0;color:#000}}
@@ -138,8 +142,7 @@ a.task,a.task:visited,a.task:hover{color:#000;text-decoration:none}
 </div>
 </div>
 <div class="sunken stars" style="flex: 1; margin-top: 3px; padding: clamp(24px, 5vw, 64px) clamp(16px, 5vw, 64px); display: flex; flex-direction: column; justify-content: center; gap: clamp(18px, 3vw, 32px)">
-<p class="pix" style="margin: 0; font-size: clamp(24px, 3.4vw, 38px); color: #6fe8ff; line-height: 1"><span class="tilde">~</span>*<span class="tilde">~</span> the official portfolio of <span class="tilde">~</span>*<span class="tilde">~</span></p>
-<h1 class="giant" style="color: #ffd400">Andrejs<br>Kocins</h1>
+<h1 class="giant">Andrejs<br>Kocins</h1>
 <div style="display: flex; flex-wrap: wrap; gap: 10px">
 <span class="htag"><svg width="20" height="20" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="6" y="3" width="4" height="1" fill="#c8102e"></rect><rect x="3" y="4" width="10" height="1" fill="#c8102e"></rect><rect x="1" y="5" width="14" height="1" fill="#c8102e"></rect><rect x="3" y="6" width="10" height="1" fill="#c8102e"></rect><rect x="6" y="7" width="4" height="1" fill="#c8102e"></rect><rect x="4" y="7" width="8" height="4" fill="#8a0b20"></rect><rect x="13" y="6" width="1" height="5" fill="#ffd400"></rect><rect x="12" y="11" width="3" height="2" fill="#ffd400"></rect></svg>BSc Cyber Systems, DTU · 3rd year</span>
 <span class="htag"><svg width="20" height="20" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="3" width="14" height="10" fill="#c8102e"></rect><rect x="5" y="3" width="2" height="10" fill="#fff"></rect><rect x="1" y="7" width="14" height="2" fill="#fff"></rect><rect x="1" y="3" width="14" height="10" fill="none" stroke="#404040" stroke-width="1"></rect></svg>Copenhagen, Denmark</span>
@@ -188,14 +191,7 @@ a.task,a.task:visited,a.task:hover{color:#000;text-decoration:none}
 <a class="btn" href="mailto:kocins.andrejs@gmail.com" style="font-weight: 700">Hire me!</a>
 <a class="btn" href="#projects">See my projects</a>
 <a class="btn" href="#work">Work history</a>
-</div>
-<div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center">
-<div class="badge88" style="background: #111; color: #39ff14">ESP32<br>INSIDE</div>
-<div class="badge88" style="background: #fff; color: #d10000">NO TABLES<br>WERE HARMED</div>
-<div class="badge88" style="background: #c8102e; color: #fff">DTU · CPH<br><span style="color: #fff">EST. 2024</span></div>
-<div class="badge88 uc" style="color: #000"><span style="background: #ffd400; padding: 0 3px">ALWAYS UNDER</span><span style="background: #ffd400; padding: 0 3px">CONSTRUCTION</span></div>
-</div>
-</div>
+</div></div>
 </section>
 
 <!-- PROJECTS -->
@@ -313,7 +309,7 @@ Projects
 </div>
 <p class="prose" style="margin: 0">Worked across around ten live stores in different industries and countries, including <b>The Body Shop</b>, <b>Eagle Leather</b> and <b>Belomax</b>. I worked on every ticket <b>from start to finish</b>: picking it up in Jira, dropping into an unfamiliar codebase, building the fix or feature, and seeing it through code review and staging all the way to production, without breaking a shop that real customers were using.</p>
 <div id="stepper" class="sunken stepper {{stepCls}}" style="padding: 12px; background: #dcdcdc">
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px">
+<div class="steprow">
 <span class="btn step" style="cursor: default; min-height: 34px; animation-delay: 0s">1. Choose ticket (Jira)</span>
 <span class="arr" aria-hidden="true" style="font-weight: 700; animation-delay: 0s">&gt;&gt;</span>
 <span class="btn step" style="cursor: default; min-height: 34px; animation-delay: 1.5s">2. Implement feature / fix bug</span>
