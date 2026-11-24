@@ -15,7 +15,7 @@
 <link href="https://fonts.googleapis.com/css2?family=VT323&amp;display=swap" rel="stylesheet">
 <style>
 body{margin:0}
-.y2k{font-family:Tahoma,Verdana,"MS Sans Serif",Geneva,sans-serif;font-size:13px;line-height:1.45;color:#000}
+.y2k{font-family:Tahoma,Verdana,"MS Sans Serif",Geneva,sans-serif;font-size:14px;line-height:1.45;color:#000}
 .y2k *{box-sizing:border-box}
 a{color:#0000ee}
 a:visited{color:#551a8b}
@@ -26,6 +26,8 @@ a:hover{color:#d10000}
 .tb-title{margin:0;font-size:13px;font-weight:700;letter-spacing:.2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .btn:focus-visible,.task:focus-visible{outline:1px dotted #000;outline-offset:-6px}
 .winbody{padding:12px}
+/* Reading text: keep lines to a comfortable length */
+.prose{max-width:70ch}
 .menubar{display:flex;gap:16px;padding:2px 6px 6px;font-size:13px}
 .menubar u{text-decoration:underline}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;min-height:36px;padding:4px 16px;background:#c0c0c0;color:#000;border:2px solid;border-color:#fff #404040 #404040 #fff;box-shadow:inset -1px -1px 0 #808080,inset 1px 1px 0 #dfdfdf;font:13px Tahoma,Verdana,sans-serif;text-decoration:none;cursor:pointer}
@@ -47,13 +49,8 @@ legend{padding:0 4px}
 @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-100%)}}
 .blink{animation:blink 1s steps(1) infinite}
 @keyframes blink{50%{visibility:hidden}}
-.indet{height:100%;width:40%;background:repeating-linear-gradient(90deg,var(--title) 0 10px,transparent 10px 12px);animation:load 2.4s steps(12) infinite}
-@keyframes load{from{transform:translateX(-100%)}to{transform:translateX(250%)}}
+.degbar{height:100%;background:repeating-linear-gradient(90deg,var(--title) 0 10px,transparent 10px 12px)}
 .badge88{width:88px;height:31px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:1px solid #000;font:700 9px/1.1 Verdana,sans-serif;text-align:center;letter-spacing:.3px}
-.dicon{display:flex;flex-direction:column;align-items:center;gap:4px;width:84px;min-height:72px;padding:4px;color:#fff;text-decoration:none;text-align:center;font-size:12px}
-.dicon:visited,.dicon:hover{color:#fff}
-.dicon:hover span,.dicon:focus-visible span{background:var(--title);outline:1px dotted #fff}
-.dicon:focus-visible{outline:none}
 .task{display:inline-flex;align-items:center;gap:6px;min-height:36px;min-width:0;max-width:170px;padding:2px 10px;background:#c0c0c0;color:#000;border:2px solid;font:13px Tahoma,Verdana,sans-serif;cursor:pointer;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .task.on{border-color:#404040 #fff #fff #404040;background:#e3e3e3;font-weight:700}
 .task.off{border-color:#fff #404040 #404040 #fff;box-shadow:inset -1px -1px 0 #808080}
@@ -62,21 +59,40 @@ a.task,a.task:visited,a.task:hover{color:#000;text-decoration:none}
 @media (max-width:600px){.taskstrip .tw.off{display:none}.taskstrip .tw.on{flex:1;max-width:none}}
 .smenu a,.smenu button{display:flex;align-items:center;gap:10px;width:100%;min-height:36px;padding:4px 14px;background:transparent;border:0;color:#000;text-decoration:none;font:13px Tahoma,Verdana,sans-serif;text-align:left;cursor:pointer}
 .smenu a:hover,.smenu button:hover,.smenu a:focus-visible,.smenu button:focus-visible{background:var(--title);color:#fff;outline:none}
+.smhint{font-size:12px;color:#505050}
+.smsep{border-top:1px solid #808080;border-bottom:1px solid #fff;margin:3px 4px}
+.smrow{position:relative}
+.smenu .smarrow{margin-left:auto;font-size:10px}
+/* Settings flyout: opens to the right like Win95; inline on narrow screens where there is no room */
+.flyout{position:absolute;left:100%;bottom:-3px;width:200px;padding:3px;display:flex;flex-direction:column}
+@media (max-width:600px){.flyout{position:static;width:auto;margin:0 4px 4px 34px}}
+.smenu .swatch{width:18px;height:14px;flex:none;border:1px solid #000;display:flex}
+.smenu .swatch i{flex:1}
+.smenu .radio{width:10px;flex:none;text-align:center}
+/* Message box and shut-down screen */
+.msgbox{position:fixed;left:50%;top:50%;transform:translate(-50%,-50%);z-index:60;width:min(360px,calc(100vw - 32px))}
+.shutdown{position:fixed;inset:0;z-index:100;background:#000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:40px;padding:24px;text-align:center}
+.smenu a:hover .smhint,.smenu button:hover .smhint,.smenu a:focus-visible .smhint,.smenu button:focus-visible .smhint{color:#dcdcff}
 .pick{display:flex;flex-direction:column;align-items:center;gap:4px;width:112px;min-height:84px;padding:6px 4px;background:transparent;border:1px dotted transparent;font:12px Tahoma,Verdana,sans-serif;cursor:pointer;text-align:center}
 .pick:focus-visible{border-color:#000;outline:none}
 .tree{display:flex;align-items:center;gap:8px;width:100%;min-height:36px;padding:2px 6px;border:1px dotted transparent;font:13px Tahoma,Verdana,sans-serif;cursor:pointer;text-align:left}
 .tree:focus-visible{border-color:#000;outline:none}
-.wordart{margin:0;font-family:"Times New Roman",Times,serif;font-style:italic;font-weight:900;line-height:1;color:#000080;text-shadow:3px 3px 0 #ff4fb8,6px 6px 0 #00b7c2}
 .giant{margin:0;font-family:"Times New Roman",Times,serif;font-style:italic;font-weight:900;font-size:clamp(56px,12.5vw,176px);line-height:.88;letter-spacing:-2px;color:#ffd400;text-shadow:4px 4px 0 #ff4fb8,9px 9px 0 #00b7c2}
+/* Facts in the hero: flat and sunken so they read as labels, not buttons */
+.htag{display:inline-flex;align-items:center;gap:8px;min-height:36px;padding:4px 12px;font-size:16px;color:#fff;background:rgba(0,0,0,.45);border:1px solid;border-color:#404040 #9a9a9a #9a9a9a #404040}
 .stars{background-color:#05051a;background-image:radial-gradient(#fff 1px,transparent 1.5px),radial-gradient(#9fd8ff 1px,transparent 1.5px);background-size:46px 46px,73px 73px;background-position:0 0,23px 31px}
 .uc{background:repeating-linear-gradient(135deg,#ffd400 0 12px,#111 12px 24px)}
-.step{animation:stepLit 7.5s infinite}
+.stepper .step{flex:1 1 auto}
+.stepper.play .step{animation:stepLit 7.5s 1}
+.stepper.play .step.last{animation:stepFinal .2s forwards}
 @keyframes stepLit{0%,19%{background:var(--title);color:#fff;border-color:#404040 #fff #fff #404040;box-shadow:inset 1px 1px 0 #000}20%,100%{background:#c0c0c0;color:#000}}
-.arr{animation:arrLit 7.5s infinite}
+@keyframes stepFinal{to{background:var(--title);color:#fff;border-color:#404040 #fff #fff #404040;box-shadow:inset 1px 1px 0 #000}}
+.stepper.play .arr{animation:arrLit 7.5s 1}
 @keyframes arrLit{0%,19%{color:var(--title);transform:translateX(3px)}20%,100%{color:#000;transform:none}}
-.flowfill{height:100%;width:0;background:repeating-linear-gradient(90deg,var(--title) 0 10px,transparent 10px 12px);animation:flow 7.5s steps(30) infinite}
+.flowfill{height:100%;width:0;background:repeating-linear-gradient(90deg,var(--title) 0 10px,transparent 10px 12px)}
+.stepper.play .flowfill{animation:flow 7.5s steps(30) 1 forwards}
 @keyframes flow{from{width:0}to{width:100%}}
-@media (prefers-reduced-motion:reduce){.ticker-track,.blink,.indet,.step,.arr,.flowfill{animation:none}.ticker-track{padding-left:16px}.flowfill{width:100%}}
+@media (prefers-reduced-motion:reduce){.ticker-track,.blink,.stepper.play .step,.stepper.play .arr,.stepper.play .flowfill{animation:none}.ticker-track{padding-left:16px}.flowfill{width:100%}.stepper .step.last{background:var(--title);color:#fff;border-color:#404040 #fff #fff #404040}}
 </style>
 </helmet>
 
@@ -107,8 +123,9 @@ a.task,a.task:visited,a.task:hover{color:#000;text-decoration:none}
 <sc-if value="{{booted}}" hint-placeholder-val="{{true}}">
 <main style="flex: 1 0 auto; width: 100%; max-width: 1240px; margin: 0 auto; padding: 20px 16px 32px; display: flex; flex-direction: column; gap: 20px">
 
+
 <!-- TITLE PAGE -->
-<section id="title" class="win" aria-labelledby="t-title" style="min-height: calc(100vh - 140px); display: flex; flex-direction: column">
+<section id="title" class="win" aria-labelledby="t-title" style="min-height: calc(100vh - 110px); display: flex; flex-direction: column">
 <div class="titlebar">
 <div class="tb-left">
 <svg width="16" height="16" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="1" width="6" height="6" fill="#e33"></rect><rect x="9" y="1" width="6" height="6" fill="#3b3"></rect><rect x="1" y="9" width="6" height="6" fill="#36f"></rect><rect x="9" y="9" width="6" height="6" fill="#fc0"></rect></svg>
@@ -119,45 +136,22 @@ a.task,a.task:visited,a.task:hover{color:#000;text-decoration:none}
 <p class="pix" style="margin: 0; font-size: clamp(24px, 3.4vw, 38px); color: #6fe8ff; line-height: 1"><span class="tilde">~</span>*<span class="tilde">~</span> the official portfolio of <span class="tilde">~</span>*<span class="tilde">~</span></p>
 <h1 class="giant" style="color: #ffd400">Andrejs<br>Kocins</h1>
 <div style="display: flex; flex-wrap: wrap; gap: 10px">
-<span class="btn" style="cursor: default; font-size: 16px; font-weight: 700; min-height: 44px">Engineering Student</span>
-<span class="btn" style="cursor: default; font-size: 16px; min-height: 44px">DTU · BSc Cyber Systems · 3rd year</span>
-<span class="btn" style="cursor: default; font-size: 16px; min-height: 44px">Copenhagen, Denmark</span>
-<span class="btn" style="cursor: default; font-size: 16px; min-height: 44px; background: #ffd400"><span class="blink" style="color: #d10000">●</span> Open to Software Engineer roles</span>
+<span class="htag">BSc Cyber Systems, DTU · 3rd year</span>
+<span class="htag">Copenhagen, Denmark</span>
+<span class="htag" style="color: #ffd400; font-weight: 700"><span aria-hidden="true" style="color: #39ff14">●</span> Open to Software Engineer roles</span>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 14px; align-items: center">
 <a class="btn" href="#welcome" style="font-size: 16px; font-weight: 700; min-height: 44px; padding: 4px 22px">Enter portfolio &gt;&gt;</a>
 <a class="btn" href="#projects" style="font-size: 16px; min-height: 44px">Projects</a>
 <a class="btn" href="#contact" style="font-size: 16px; min-height: 44px">Contact</a>
 </div>
+<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: calc(-1 * clamp(6px, 1.5vw, 16px))">
+<a class="btn" href="https://github.com/andrejskocins" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="2" width="12" height="12" fill="#fff"></rect><rect x="2" y="2" width="12" height="3" fill="#000"></rect><rect x="4" y="7" width="2" height="1" fill="#000"></rect><rect x="3" y="8" width="1" height="1" fill="#000"></rect><rect x="4" y="9" width="2" height="1" fill="#000"></rect><rect x="7" y="10" width="5" height="1" fill="#000"></rect></svg>GitHub</a>
+<a class="btn" href="https://linkedin.com/in/andrejs-kocins" target="_blank" rel="noopener"><svg width="18" height="18" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="1" width="14" height="14" fill="#fff"></rect><rect x="2" y="2" width="12" height="12" fill="#1d5fa8"></rect><rect x="4" y="7" width="2" height="5" fill="#fff"></rect><rect x="4" y="4" width="2" height="2" fill="#fff"></rect><rect x="7" y="7" width="2" height="5" fill="#fff"></rect><rect x="9" y="7" width="3" height="2" fill="#fff"></rect><rect x="10" y="9" width="2" height="3" fill="#fff"></rect></svg>LinkedIn</a>
+</div>
 </div>
 </section>
 
-<nav aria-label="Desktop shortcuts" style="display: flex; flex-wrap: wrap; gap: 8px">
-<a class="dicon" href="#welcome">
-<svg width="36" height="36" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="2" width="14" height="9" fill="#c0c0c0"></rect><rect x="2" y="3" width="12" height="7" fill="#000080"></rect><rect x="3" y="4" width="5" height="1" fill="#fff"></rect><rect x="5" y="11" width="6" height="2" fill="#808080"></rect><rect x="3" y="13" width="10" height="1" fill="#404040"></rect></svg>
-<span>My Computer</span>
-</a>
-<a class="dicon" href="#projects">
-<svg width="36" height="36" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="3" width="6" height="2" fill="#e8b400"></rect><rect x="1" y="4" width="14" height="10" fill="#ffd84a"></rect><rect x="1" y="13" width="14" height="1" fill="#a07800"></rect><rect x="14" y="4" width="1" height="10" fill="#a07800"></rect></svg>
-<span>Projects</span>
-</a>
-<a class="dicon" href="https://github.com/andrejskocins" target="_blank" rel="noopener">
-<svg width="36" height="36" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="2" width="12" height="12" fill="#fff"></rect><rect x="2" y="2" width="12" height="3" fill="#000"></rect><rect x="4" y="7" width="2" height="1" fill="#000"></rect><rect x="3" y="8" width="1" height="1" fill="#000"></rect><rect x="4" y="9" width="2" height="1" fill="#000"></rect><rect x="7" y="10" width="5" height="1" fill="#000"></rect></svg>
-<span>GitHub</span>
-</a>
-<a class="dicon" href="https://linkedin.com/in/andrejs-kocins" target="_blank" rel="noopener">
-<svg width="36" height="36" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="1" width="14" height="14" fill="#fff"></rect><rect x="2" y="2" width="12" height="12" fill="#1d5fa8"></rect><rect x="4" y="7" width="2" height="5" fill="#fff"></rect><rect x="4" y="4" width="2" height="2" fill="#fff"></rect><rect x="7" y="7" width="2" height="5" fill="#fff"></rect><rect x="9" y="7" width="3" height="2" fill="#fff"></rect><rect x="10" y="9" width="2" height="3" fill="#fff"></rect></svg>
-<span>LinkedIn</span>
-</a>
-<a class="dicon" href="mailto:kocins.andrejs@gmail.com">
-<svg width="36" height="36" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="4" width="14" height="9" fill="#fff"></rect><rect x="1" y="4" width="14" height="1" fill="#404040"></rect><rect x="1" y="12" width="14" height="1" fill="#404040"></rect><rect x="3" y="6" width="2" height="1" fill="#404040"></rect><rect x="5" y="7" width="2" height="1" fill="#404040"></rect><rect x="7" y="8" width="2" height="1" fill="#404040"></rect><rect x="9" y="7" width="2" height="1" fill="#404040"></rect><rect x="11" y="6" width="2" height="1" fill="#404040"></rect></svg>
-<span>E-mail me</span>
-</a>
-<a class="dicon" href="#contact">
-<svg width="36" height="36" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="1" width="10" height="14" fill="#c84b4b"></rect><rect x="4" y="2" width="8" height="12" fill="#fff6d5"></rect><rect x="5" y="4" width="6" height="1" fill="#808080"></rect><rect x="5" y="6" width="6" height="1" fill="#808080"></rect><rect x="5" y="8" width="4" height="1" fill="#808080"></rect></svg>
-<span>Guestbook</span>
-</a>
-</nav>
 
 <div style="display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-start">
 
@@ -180,13 +174,11 @@ a.task,a.task:visited,a.task:hover{color:#000;text-decoration:none}
 </div>
 </sc-if>
 <div style="flex: 1 1 280px; min-width: 0; display: flex; flex-direction: column; gap: 10px">
-<p class="wordart" style="font-size: clamp(30px, 4vw, 40px)">Hi! I’m Andrejs.</p>
-<p style="margin: 6px 0 0; font-size: 15px"><b>Engineering Student @ DTU</b> · Cyber Systems · Copenhagen, Denmark</p>
-<p style="margin: 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap"><span class="blink" style="background: #d10000; color: #fff; font-weight: 700; padding: 1px 6px; font-size: 12px">NEW!</span> <span>Looking for <b>Software Engineer</b> roles</span></p>
+<p style="margin: 0; font-size: 24px; font-weight: 700; color: #000080; line-height: 1.2">Hi! I’m Andrejs.</p>
 </div>
 </div>
-<div class="sunken" style="padding: 12px 14px">
-<p style="margin: 0">Third-year DTU engineering student (Cyber Systems) who spent this summer keeping live Magento stores alive at <b>Magebit</b>, and built an NLP-based consultant-matching system for <b>Deloitte</b>. I like code that touches the real world: from web shops with real customers to ESP32 boards and a solar-powered buoy.</p>
+<div class="sunken" style="padding: 12px 14px; align-self: flex-start; max-width: 100%">
+<p class="prose" style="margin: 0">Third-year DTU engineering student (Cyber Systems) who spent this summer keeping live Magento stores alive at <b>Magebit</b>, and built an NLP-based consultant-matching system for <b>Deloitte</b>. I like code that touches the real world: from web shops with real customers to ESP32 boards and a solar-powered buoy.</p>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 10px">
 <a class="btn" href="mailto:kocins.andrejs@gmail.com" style="font-weight: 700">Hire me!</a>
@@ -194,114 +186,11 @@ a.task,a.task:visited,a.task:hover{color:#000;text-decoration:none}
 <a class="btn" href="#work">Work history</a>
 </div>
 <div style="display: flex; flex-wrap: wrap; gap: 6px; align-items: center">
-<div class="badge88" style="background: #000080; color: #fff">MADE WITH<br><span style="color: #ffd400">NOTEPAD</span></div>
 <div class="badge88" style="background: #111; color: #39ff14">ESP32<br>INSIDE</div>
 <div class="badge88" style="background: #fff; color: #d10000">NO TABLES<br>WERE HARMED</div>
 <div class="badge88" style="background: #c8102e; color: #fff">DTU · CPH<br><span style="color: #fff">EST. 2024</span></div>
 <div class="badge88 uc" style="color: #000"><span style="background: #ffd400; padding: 0 3px">ALWAYS UNDER</span><span style="background: #ffd400; padding: 0 3px">CONSTRUCTION</span></div>
 </div>
-</div>
-</section>
-
-<!-- WORK (parent, with two child windows) -->
-<section id="work" class="win" aria-labelledby="t-work">
-<div class="titlebar">
-<div class="tb-left">
-<svg width="16" height="16" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="5" y="2" width="6" height="3" fill="#8a5a2b"></rect><rect x="1" y="5" width="14" height="9" fill="#b9792f"></rect><rect x="1" y="8" width="14" height="1" fill="#6b4420"></rect><rect x="7" y="7" width="2" height="3" fill="#ffd400"></rect></svg>
-<h2 id="t-work" class="tb-title">Program Manager - Work Experience</h2>
-</div>
-</div>
-<div class="menubar" aria-hidden="true"><span><u>F</u>ile</span><span><u>O</u>ptions</span><span><u>W</u>indow</span><span><u>H</u>elp</span></div>
-<div style="background: #808080; border: 2px solid; border-color: #404040 #fff #fff #404040; padding: 12px; display: flex; flex-direction: column; gap: 14px">
-
-<!-- child: Junior Web Developer -->
-<section id="job" class="win" aria-labelledby="t-job">
-<div class="titlebar">
-<div class="tb-left">
-<svg width="16" height="16" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="2" width="14" height="10" fill="#c0c0c0"></rect><rect x="2" y="3" width="12" height="8" fill="#000"></rect><rect x="3" y="5" width="2" height="1" fill="#39ff14"></rect><rect x="5" y="6" width="2" height="1" fill="#39ff14"></rect><rect x="3" y="7" width="2" height="1" fill="#39ff14"></rect><rect x="8" y="8" width="4" height="1" fill="#39ff14"></rect></svg>
-<h3 id="t-job" class="tb-title">Junior_Web_Developer.exe</h3>
-</div>
-</div>
-<div class="winbody" style="display: flex; flex-direction: column; gap: 14px">
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline">
-<p style="margin: 0; font-size: 18px; font-weight: 700">Junior Web Developer · <span style="color: #000080">Magebit</span></p>
-<span class="thin" style="background: #fff">Jun 2026 – Sep 2026</span>
-</div>
-<div style="display: flex; flex-wrap: wrap; gap: 6px">
-<span class="chip">Magento</span><span class="chip">PHP</span><span class="chip">Git</span><span class="chip">Docker</span><span class="chip">Jira</span><span class="chip">Claude/MCP</span>
-</div>
-<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
-<div class="sunken" style="padding: 10px; text-align: center; background: #000">
-<div class="pix" style="font-size: 44px; line-height: 1; color: #39ff14"><span class="tilde">~</span>10</div>
-<div style="font-size: 12px; color: #fff">live Magento stores</div>
-</div>
-<div class="sunken" style="padding: 10px; text-align: center; background: #000">
-<div class="pix" style="font-size: 44px; line-height: 1; color: #ffd400"><span class="tilde">~</span>50</div>
-<div style="font-size: 12px; color: #fff">tickets resolved</div>
-</div>
-<div class="sunken" style="padding: 10px; text-align: center; background: #000">
-<div class="pix" style="font-size: 44px; line-height: 1; color: #6fd3ff">15</div>
-<div style="font-size: 12px; color: #fff">person support team</div>
-</div>
-</div>
-<p style="margin: 0">Worked across around ten live stores in different industries and countries, including <b>The Body Shop</b>, <b>Eagle Leather</b> and <b>Belomax</b>. I worked on every ticket <b>from start to finish</b>: picking it up in Jira, dropping into an unfamiliar codebase, building the fix or feature, and seeing it through code review and staging all the way to production, without breaking a shop that real customers were using.</p>
-<div class="sunken" style="padding: 12px; background: #dcdcdc">
-<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px">
-<span class="btn step" style="cursor: default; min-height: 34px; animation-delay: 0s">1. Choose ticket (Jira)</span>
-<span class="arr" aria-hidden="true" style="font-weight: 700; animation-delay: 0s">&gt;&gt;</span>
-<span class="btn step" style="cursor: default; min-height: 34px; animation-delay: 1.5s">2. Implement feature / fix bug</span>
-<span class="arr" aria-hidden="true" style="font-weight: 700; animation-delay: 1.5s">&gt;&gt;</span>
-<span class="btn step" style="cursor: default; min-height: 34px; animation-delay: 3s">3. Code review</span>
-<span class="arr" aria-hidden="true" style="font-weight: 700; animation-delay: 3s">&gt;&gt;</span>
-<span class="btn step" style="cursor: default; min-height: 34px; animation-delay: 4.5s">4. Staging</span>
-<span class="arr" aria-hidden="true" style="font-weight: 700; animation-delay: 4.5s">&gt;&gt;</span>
-<span class="btn step" style="cursor: default; min-height: 34px; animation-delay: 6s">5. Production</span>
-</div>
-<div class="sunken" style="height: 16px; padding: 2px; margin-top: 10px" aria-hidden="true"><div class="flowfill"></div></div>
-</div>
-<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px">
-<li>Resolved ~50 tickets, bug fixes and feature changes, each one owned end to end.</li>
-<li>Switched between codebases daily inside a 15-person support team.</li>
-<li>Kept watch over a client’s store during a major sale, and escalated issues to senior developers as they came up.</li>
-</ul>
-</div>
-<div class="statusbar"><span class="thin" style="flex: 1">Magebit · Jun – Sep 2026</span><span class="thin">~50 ticket(s)</span></div>
-</section>
-
-<!-- child: Other experience -->
-<section id="other" class="win" aria-labelledby="t-other">
-<div class="titlebar">
-<div class="tb-left">
-<svg width="16" height="16" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="3" width="12" height="11" fill="#fff"></rect><rect x="2" y="3" width="12" height="3" fill="#d10000"></rect><rect x="4" y="8" width="8" height="1" fill="#404040"></rect><rect x="4" y="10" width="6" height="1" fill="#404040"></rect></svg>
-<h3 id="t-other" class="tb-title">Other_Experience.exe</h3>
-</div>
-</div>
-<div class="winbody" style="display: flex; flex-direction: column; gap: 12px">
-<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline">
-<p style="margin: 0; font-size: 16px; font-weight: 700">Customer-facing jobs alongside my studies</p>
-<span class="thin" style="background: #fff">2023 – 2026</span>
-</div>
-<div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
-<div class="sunken" style="padding: 12px; display: flex; flex-direction: column; gap: 6px">
-<span class="chip" style="align-self: flex-start; background: #c8102e; color: #fff; border-color: #800">DENMARK</span>
-<span style="font-size: 16px; font-weight: 700">Waiter</span>
-<span>Eattoday</span>
-</div>
-<div class="sunken" style="padding: 12px; display: flex; flex-direction: column; gap: 6px">
-<span class="chip" style="align-self: flex-start; background: #9e3039; color: #fff; border-color: #600">LATVIA</span>
-<span style="font-size: 16px; font-weight: 700">Sales Associate</span>
-<span>Circle K</span>
-</div>
-<div class="sunken" style="padding: 12px; display: flex; flex-direction: column; gap: 6px">
-<span class="chip" style="align-self: flex-start; background: #9e3039; color: #fff; border-color: #600">LATVIA</span>
-<span style="font-size: 16px; font-weight: 700">Customer Consultant Assistant</span>
-<span>LMT</span>
-</div>
-</div>
-</div>
-<div class="statusbar"><span class="thin" style="flex: 1">3 job(s) · 2 countries</span></div>
-</section>
-
 </div>
 </section>
 
@@ -332,7 +221,7 @@ Projects
 </button>
 </sc-for>
 </div>
-<div style="flex: 999 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 8px">
+<div id="proj-folder" style="flex: 999 1 380px; min-width: 0; display: flex; flex-direction: column; gap: 8px; scroll-margin-top: 12px">
 <div class="sunken" style="padding: 12px; display: flex; flex-direction: column; gap: 8px">
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline">
 <p style="margin: 0; font-size: 17px; font-weight: 700; color: #000080">{{folder.label}}</p>
@@ -348,7 +237,7 @@ Projects
 </sc-for>
 </div>
 </div>
-<fieldset style="background: #c0c0c0">
+<fieldset id="proj-detail" style="background: #c0c0c0; scroll-margin-top: 12px">
 <legend><b>{{detail.file}}</b> — Properties</legend>
 <div style="display: flex; flex-direction: column; gap: 10px">
 <div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline">
@@ -376,6 +265,109 @@ Projects
 </div>
 <div class="statusbar"><span class="thin" style="flex: 1">{{folderCount}} folder(s) · {{fileCount}} object(s) in this folder</span><span class="thin">1 selected</span></div>
 </section>
+
+<!-- WORK (parent, with two child windows) -->
+<section id="work" class="win" aria-labelledby="t-work">
+<div class="titlebar">
+<div class="tb-left">
+<svg width="16" height="16" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="5" y="2" width="6" height="3" fill="#8a5a2b"></rect><rect x="1" y="5" width="14" height="9" fill="#b9792f"></rect><rect x="1" y="8" width="14" height="1" fill="#6b4420"></rect><rect x="7" y="7" width="2" height="3" fill="#ffd400"></rect></svg>
+<h2 id="t-work" class="tb-title">Program Manager - Work Experience</h2>
+</div>
+</div>
+<div class="menubar" aria-hidden="true"><span><u>F</u>ile</span><span><u>O</u>ptions</span><span><u>W</u>indow</span><span><u>H</u>elp</span></div>
+<div style="background: #808080; border: 2px solid; border-color: #404040 #fff #fff #404040; padding: 12px; display: flex; flex-direction: column; gap: 14px">
+
+<!-- child: Junior Web Developer -->
+<section id="job" class="win" aria-labelledby="t-job">
+<div class="titlebar">
+<div class="tb-left">
+<svg width="16" height="16" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="2" width="14" height="10" fill="#c0c0c0"></rect><rect x="2" y="3" width="12" height="8" fill="#000"></rect><rect x="3" y="5" width="2" height="1" fill="#39ff14"></rect><rect x="5" y="6" width="2" height="1" fill="#39ff14"></rect><rect x="3" y="7" width="2" height="1" fill="#39ff14"></rect><rect x="8" y="8" width="4" height="1" fill="#39ff14"></rect></svg>
+<h3 id="t-job" class="tb-title">Magebit.doc - WordPad</h3>
+</div>
+</div>
+<div class="winbody" style="display: flex; flex-direction: column; gap: 14px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline">
+<p style="margin: 0; font-size: 18px; font-weight: 700">Junior Web Developer · <span style="color: #000080">Magebit</span></p>
+<span class="thin" style="background: #fff">Jun 2026 – Sep 2026</span>
+</div>
+<div style="display: flex; flex-wrap: wrap; gap: 6px">
+<span class="chip">Magento</span><span class="chip">PHP</span><span class="chip">Git</span><span class="chip">Docker</span><span class="chip">Jira</span><span class="chip">Claude/MCP</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px">
+<div class="sunken" style="padding: 10px; text-align: center; background: #000">
+<div class="pix" style="font-size: 44px; line-height: 1; color: #39ff14"><span class="tilde">~</span>10</div>
+<div style="font-size: 12px; color: #fff">live Magento stores</div>
+</div>
+<div class="sunken" style="padding: 10px; text-align: center; background: #000">
+<div class="pix" style="font-size: 44px; line-height: 1; color: #ffd400"><span class="tilde">~</span>50</div>
+<div style="font-size: 12px; color: #fff">tickets resolved</div>
+</div>
+<div class="sunken" style="padding: 10px; text-align: center; background: #000">
+<div class="pix" style="font-size: 44px; line-height: 1; color: #6fd3ff">15</div>
+<div style="font-size: 12px; color: #fff">person support team</div>
+</div>
+</div>
+<p class="prose" style="margin: 0">Worked across around ten live stores in different industries and countries, including <b>The Body Shop</b>, <b>Eagle Leather</b> and <b>Belomax</b>. I worked on every ticket <b>from start to finish</b>: picking it up in Jira, dropping into an unfamiliar codebase, building the fix or feature, and seeing it through code review and staging all the way to production, without breaking a shop that real customers were using.</p>
+<div id="stepper" class="sunken stepper {{stepCls}}" style="padding: 12px; background: #dcdcdc">
+<div style="display: flex; flex-wrap: wrap; align-items: center; gap: 6px">
+<span class="btn step" style="cursor: default; min-height: 34px; animation-delay: 0s">1. Choose ticket (Jira)</span>
+<span class="arr" aria-hidden="true" style="font-weight: 700; animation-delay: 0s">&gt;&gt;</span>
+<span class="btn step" style="cursor: default; min-height: 34px; animation-delay: 1.5s">2. Implement feature / fix bug</span>
+<span class="arr" aria-hidden="true" style="font-weight: 700; animation-delay: 1.5s">&gt;&gt;</span>
+<span class="btn step" style="cursor: default; min-height: 34px; animation-delay: 3s">3. Code review</span>
+<span class="arr" aria-hidden="true" style="font-weight: 700; animation-delay: 3s">&gt;&gt;</span>
+<span class="btn step" style="cursor: default; min-height: 34px; animation-delay: 4.5s">4. Staging</span>
+<span class="arr" aria-hidden="true" style="font-weight: 700; animation-delay: 4.5s">&gt;&gt;</span>
+<span class="btn step last" style="cursor: default; min-height: 34px; animation-delay: 6s">5. Production</span>
+</div>
+<div class="sunken" style="height: 16px; padding: 2px; margin-top: 10px" aria-hidden="true"><div class="flowfill"></div></div>
+</div>
+<ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 6px">
+<li>Resolved ~50 tickets, bug fixes and feature changes, each one owned end to end.</li>
+<li>Switched between codebases daily inside a 15-person support team.</li>
+<li>Kept watch over a client’s store during a major sale, and escalated issues to senior developers as they came up.</li>
+</ul>
+</div>
+<div class="statusbar"><span class="thin" style="flex: 1">Magebit · Jun – Sep 2026</span><span class="thin">~50 ticket(s)</span></div>
+</section>
+
+<!-- child: Other experience -->
+<section id="other" class="win" aria-labelledby="t-other">
+<div class="titlebar">
+<div class="tb-left">
+<svg width="16" height="16" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="3" width="12" height="11" fill="#fff"></rect><rect x="2" y="3" width="12" height="3" fill="#d10000"></rect><rect x="4" y="8" width="8" height="1" fill="#404040"></rect><rect x="4" y="10" width="6" height="1" fill="#404040"></rect></svg>
+<h3 id="t-other" class="tb-title">Other_Jobs.txt - Notepad</h3>
+</div>
+</div>
+<div class="winbody" style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px; align-items: baseline">
+<p style="margin: 0; font-size: 16px; font-weight: 700">Customer-facing jobs alongside my studies</p>
+<span class="thin" style="background: #fff">2023 – 2026</span>
+</div>
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px">
+<div class="sunken" style="padding: 12px; display: flex; flex-direction: column; gap: 6px">
+<span class="chip" style="align-self: flex-start; background: #c8102e; color: #fff; border-color: #800">DENMARK</span>
+<span style="font-size: 16px; font-weight: 700">Waiter</span>
+<span>Eattoday</span>
+</div>
+<div class="sunken" style="padding: 12px; display: flex; flex-direction: column; gap: 6px">
+<span class="chip" style="align-self: flex-start; background: #9e3039; color: #fff; border-color: #600">LATVIA</span>
+<span style="font-size: 16px; font-weight: 700">Sales Associate</span>
+<span>Circle K</span>
+</div>
+<div class="sunken" style="padding: 12px; display: flex; flex-direction: column; gap: 6px">
+<span class="chip" style="align-self: flex-start; background: #9e3039; color: #fff; border-color: #600">LATVIA</span>
+<span style="font-size: 16px; font-weight: 700">Customer Consultant Assistant</span>
+<span>LMT</span>
+</div>
+</div>
+</div>
+<div class="statusbar"><span class="thin" style="flex: 1">3 job(s) · 2 countries</span></div>
+</section>
+
+</div>
+</section>
+
 
 </div>
 
@@ -405,8 +397,7 @@ Copenhagen, DK
 &gt; speaks --human
 English · Latvian · Russian · French
 
-&gt; looking_for
-Software Engineer roles<span class="blink">_</span></div>
+&gt; <span class="blink">_</span></div>
 </section>
 
 <!-- SKILLS -->
@@ -458,8 +449,8 @@ Software Engineer roles<span class="blink">_</span></div>
 <div style="font-size: 12px">Sep 2024 – present</div>
 <div><b>BSc in General Engineering</b>, Cyber Systems specialization</div>
 <div style="display: flex; align-items: center; gap: 8px">
-<span style="font-size: 12px; white-space: nowrap">Copying knowledge…</span>
-<div class="sunken" style="flex: 1; height: 18px; overflow: hidden; padding: 2px" role="img" aria-label="Degree in progress"><div class="indet"></div></div>
+<span style="font-size: 12px; white-space: nowrap">Copying knowledge… year {{degYear}} of 3</span>
+<div class="sunken" style="flex: 1; height: 18px; overflow: hidden; padding: 2px" role="img" aria-label="Degree progress: year {{degYear}} of 3"><div class="degbar" style="width: {{degPct}}%"></div></div>
 </div>
 <ul style="margin: 0; padding-left: 20px; display: flex; flex-direction: column; gap: 4px">
 <li>Solar-powered buoy (Arduino + solar data analysis)</li>
@@ -503,10 +494,7 @@ think=Mathematics, Physics
 
 <span style="color: #000080">[code]</span>
 loves=OOP, embedded, basic NLP
-hardware=ESP32, Arduino
-
-<span style="color: #000080">[status]</span>
-open_to_work=<span style="color: #007a00">true</span></div>
+hardware=ESP32, Arduino</div>
 </div>
 </section>
 
@@ -565,14 +553,41 @@ open_to_work=<span style="color: #007a00">true</span></div>
 Start
 </button>
 <sc-if value="{{startOpen}}" hint-placeholder-val="{{false}}">
-<div class="win smenu" style="position: absolute; bottom: calc(100% + 6px); left: 0; width: 270px; display: flex; padding: 3px">
+<div class="win smenu" role="menu" aria-label="Start" style="position: absolute; bottom: calc(100% + 6px); left: 0; width: 240px; min-height: 140px; display: flex; padding: 3px">
 <div style="width: 30px; flex: none; background: linear-gradient(0deg, var(--title), #808080); display: flex; align-items: flex-end; justify-content: center; padding-bottom: 8px">
 <span style="writing-mode: vertical-rl; transform: rotate(180deg); color: #fff; font-weight: 900; font-size: 17px; letter-spacing: 1px">Andrejs<span style="font-weight: 400">95</span></span>
 </div>
-<div style="flex: 1; display: flex; flex-direction: column; padding: 2px 0">
-<sc-for list="{{wins}}" as="t" hint-placeholder-count="10">
-<a href="{{t.href}}" onClick="{{t.go}}">{{t.title}}</a>
+<div style="flex: 1; display: flex; flex-direction: column; justify-content: flex-end; padding: 2px 0">
+<a role="menuitem" href="https://github.com/andrejskocins/portfolio" target="_blank" rel="noopener" onClick="{{closeStart}}">
+<svg width="24" height="24" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="2" y="1" width="12" height="14" fill="#fff"></rect><rect x="2" y="1" width="12" height="14" fill="none" stroke="#404040" stroke-width="1"></rect><rect x="5" y="6" width="1" height="1" fill="#000080"></rect><rect x="4" y="7" width="1" height="1" fill="#000080"></rect><rect x="5" y="8" width="1" height="1" fill="#000080"></rect><rect x="10" y="6" width="1" height="1" fill="#000080"></rect><rect x="11" y="7" width="1" height="1" fill="#000080"></rect><rect x="10" y="8" width="1" height="1" fill="#000080"></rect><rect x="7" y="9" width="1" height="1" fill="#d10000"></rect><rect x="8" y="7" width="1" height="2" fill="#d10000"></rect><rect x="9" y="5" width="1" height="2" fill="#d10000"></rect></svg>
+<span style="display: flex; flex-direction: column; line-height: 1.25"><span><u>V</u>iew source</span><span class="smhint">This site’s code on GitHub</span></span>
+</a>
+<div class="smrow">
+<button role="menuitem" aria-haspopup="menu" aria-expanded="{{themeOpen}}" onClick="{{toggleTheme}}">
+<svg width="24" height="24" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="2" width="14" height="10" fill="#c0c0c0"></rect><rect x="2" y="3" width="12" height="8" fill="#fff"></rect><rect x="3" y="4" width="4" height="3" fill="#008080"></rect><rect x="9" y="4" width="4" height="3" fill="#000080"></rect><rect x="3" y="8" width="4" height="2" fill="#5b3f8c"></rect><rect x="9" y="8" width="4" height="2" fill="#2e5a3a"></rect><rect x="5" y="12" width="6" height="2" fill="#808080"></rect></svg>
+<span style="display: flex; flex-direction: column; line-height: 1.25"><span><u>S</u>ettings</span><span class="smhint">Desktop colours</span></span><span class="smarrow" aria-hidden="true">▶</span>
+</button>
+<sc-if value="{{themeOpen}}" hint-placeholder-val="{{false}}">
+<div class="win flyout" role="menu" aria-label="Desktop colours">
+<sc-for list="{{themes}}" as="t" hint-placeholder-count="4">
+<button role="menuitemradio" aria-checked="{{t.on}}" onClick="{{t.pick}}"><span class="radio" aria-hidden="true">{{t.mark}}</span><span class="swatch" aria-hidden="true"><i style="background: {{t.desk}}"></i><i style="background: {{t.title}}"></i></span><span>{{t.name}}</span></button>
 </sc-for>
+</div>
+</sc-if>
+</div>
+<button role="menuitem" onClick="{{copyEmail}}">
+<svg width="24" height="24" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="4" width="14" height="9" fill="#fff"></rect><rect x="1" y="4" width="14" height="1" fill="#404040"></rect><rect x="1" y="12" width="14" height="1" fill="#404040"></rect><rect x="3" y="6" width="2" height="1" fill="#404040"></rect><rect x="5" y="7" width="2" height="1" fill="#404040"></rect><rect x="7" y="8" width="2" height="1" fill="#404040"></rect><rect x="9" y="7" width="2" height="1" fill="#404040"></rect><rect x="11" y="6" width="2" height="1" fill="#404040"></rect></svg>
+<span style="display: flex; flex-direction: column; line-height: 1.25"><span><u>C</u>opy e-mail address</span><span class="smhint">kocins.andrejs@gmail.com</span></span>
+</button>
+<button role="menuitem" onClick="{{restart}}">
+<svg width="24" height="24" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="2" width="14" height="10" fill="#c0c0c0"></rect><rect x="2" y="3" width="12" height="8" fill="#000"></rect><rect x="3" y="5" width="2" height="1" fill="#39ff14"></rect><rect x="5" y="6" width="2" height="1" fill="#39ff14"></rect><rect x="3" y="7" width="2" height="1" fill="#39ff14"></rect><rect x="8" y="8" width="3" height="1" fill="#39ff14"></rect><rect x="5" y="12" width="6" height="2" fill="#808080"></rect></svg>
+<span style="display: flex; flex-direction: column; line-height: 1.25"><span><u>R</u>estart</span><span class="smhint">Replay the intro</span></span>
+</button>
+<div class="smsep" role="separator"></div>
+<button role="menuitem" onClick="{{shutDown}}">
+<svg width="24" height="24" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="1" y="2" width="14" height="10" fill="#c0c0c0"></rect><rect x="2" y="3" width="12" height="8" fill="#000"></rect><rect x="7" y="4" width="2" height="3" fill="#ff8c1a"></rect><rect x="5" y="5" width="1" height="3" fill="#ff8c1a"></rect><rect x="10" y="5" width="1" height="3" fill="#ff8c1a"></rect><rect x="6" y="8" width="4" height="1" fill="#ff8c1a"></rect><rect x="5" y="12" width="6" height="2" fill="#808080"></rect></svg>
+<span>Sh<u>u</u>t Down…</span>
+</button>
 </div>
 </div>
 </sc-if>
@@ -585,6 +600,33 @@ Start
 </nav>
 <div class="thin pix" style="flex: none; font-size: 20px; padding: 2px 10px; min-height: 32px; display: flex; align-items: center">{{clock}}</div>
 </div>
+
+<!-- MESSAGE BOX -->
+<sc-if value="{{dialogOpen}}" hint-placeholder-val="{{false}}">
+<div class="win msgbox" role="alertdialog" aria-modal="false" aria-labelledby="dlg-title" aria-describedby="dlg-text">
+<div class="titlebar"><div class="tb-left"><h2 id="dlg-title" class="tb-title">E-mail address</h2></div></div>
+<div class="winbody" style="display: flex; flex-direction: column; gap: 12px">
+<div style="display: flex; gap: 12px; align-items: flex-start">
+<svg width="32" height="32" viewBox="0 0 16 16" shape-rendering="crispEdges" aria-hidden="true"><rect x="3" y="1" width="10" height="14" fill="#fff"></rect><rect x="4" y="1" width="8" height="1" fill="#000080"></rect><rect x="7" y="4" width="2" height="2" fill="#000080"></rect><rect x="7" y="7" width="2" height="6" fill="#000080"></rect><rect x="3" y="1" width="10" height="14" fill="none" stroke="#404040" stroke-width="1"></rect></svg>
+<div id="dlg-text" style="display: flex; flex-direction: column; gap: 8px; min-width: 0">
+<p style="margin: 0">{{dialogText}}</p>
+<sc-if value="{{dialogFail}}" hint-placeholder-val="{{false}}">
+<input class="sunken" readonly value="kocins.andrejs@gmail.com" aria-label="E-mail address" style="padding: 6px; font: 14px Tahoma, Verdana, sans-serif">
+</sc-if>
+</div>
+</div>
+<div style="display: flex; justify-content: center"><button id="dlg-ok" class="btn" style="min-width: 88px" onClick="{{closeDialog}}">OK</button></div>
+</div>
+</div>
+</sc-if>
+
+<!-- SHUT DOWN -->
+<sc-if value="{{shutdown}}" hint-placeholder-val="{{false}}">
+<div class="shutdown" role="dialog" aria-label="Shut down">
+<p class="pix" style="margin: 0; color: #ff8c1a; font-size: clamp(30px, 5vw, 60px); line-height: 1.15">It’s now safe to turn off<br>your computer.</p>
+<button id="shut-on" class="btn" onClick="{{restart}}">Start again</button>
+</div>
+</sc-if>
 </sc-if>
 
 </div>
@@ -593,7 +635,9 @@ Start
 class Component extends DCLogic {
   constructor(props) {
     super(props);
-    this.state = { active: 'title', folder: 'deloitte', sel: 'deloitte', start: false, now: new Date(), gbName: '', gbMsg: '', closedGroups: { concepts: true, spoken: true }, boot: 'typing', typed: 0, pct: 0 };
+    let theme = null;
+    try { theme = localStorage.getItem('akTheme'); } catch (e) {}
+    this.state = { theme, themeOpen: false, dialog: null, shutdown: false, stepPlay: false, active: 'title', folder: 'deloitte', sel: 'deloitte', start: false, now: new Date(), gbName: '', gbMsg: '', closedGroups: { concepts: true, spoken: true }, boot: 'typing', typed: 0, pct: 0 };
     this.CMD = 'run portfolio_final_v2_FINAL.exe';
   }
   componentDidMount() {
@@ -606,7 +650,25 @@ class Component extends DCLogic {
     window.addEventListener('scroll', this.onScroll, { passive: true });
     window.addEventListener('resize', this.onScroll);
     // Close the Start menu on Escape or a click outside it.
-    this.onDocKey = (e) => { if (e.key === 'Escape' && this.state.start) this.setState({ start: false }); };
+    this.onDocKey = (e) => {
+      if (e.key === 'Escape') {
+        if (this.state.dialog) this.closeDialog();
+        else if (this.state.themeOpen) this.setState({ themeOpen: false });
+        else if (this.state.start) this.setState({ start: false });
+        return;
+      }
+      // Start menu access keys (the underlined letters).
+      if (!this.state.start || e.ctrlKey || e.metaKey || e.altKey) return;
+      const k = e.key.toLowerCase();
+      const act = {
+        v: () => { window.open('https://github.com/andrejskocins/portfolio', '_blank', 'noopener'); this.setState({ start: false }); },
+        s: () => this.setState({ themeOpen: !this.state.themeOpen }),
+        c: () => this.copyEmail(),
+        r: () => this.restart(),
+        u: () => this.shutDown()
+      }[k];
+      if (act) { e.preventDefault(); act(); }
+    };
     this.onDocDown = (e) => {
       if (this.state.start && !(e.target.closest && e.target.closest('.startwrap'))) this.setState({ start: false });
     };
@@ -617,21 +679,66 @@ class Component extends DCLogic {
     let seen = false;
     try { seen = sessionStorage.getItem('akBooted') === '1'; } catch (e) {}
     if (reduce || seen) { this.finishBoot(); return; }
+    this.startBoot(false);
+  }
+  // Runs the DOS intro. With reduced motion (only reachable via Restart) the
+  // screen appears complete and waits for a key or click instead of animating.
+  startBoot(reduce) {
     // Any key skips the intro (clicks are handled on the boot screen itself).
-    this.onBootKey = (e) => {
-      if (e.ctrlKey || e.metaKey || e.altKey) return;
-      e.preventDefault(); // don't let Space/arrows also scroll the page that appears
-      this.finishBoot();
-    };
-    window.addEventListener('keydown', this.onBootKey);
+    if (!this.onBootKey) {
+      this.onBootKey = (e) => {
+        if (e.ctrlKey || e.metaKey || e.altKey) return;
+        e.preventDefault(); // don't let Space/arrows also scroll the page that appears
+        this.finishBoot();
+      };
+      window.addEventListener('keydown', this.onBootKey);
+    }
+    if (reduce) { this.setState({ boot: 'loading', typed: this.CMD.length, pct: 100 }); return; }
     this.bootTo = setTimeout(() => this.typeCmd(), 500);
+  }
+  copyEmail() {
+    const addr = 'kocins.andrejs@gmail.com';
+    this.lastFocus = document.activeElement;
+    const show = (ok) => this.setState({ start: false, themeOpen: false, dialog: ok ? 'copied' : 'copyfail' }, () => {
+      const b = document.getElementById('dlg-ok');
+      if (b) b.focus();
+    });
+    try { navigator.clipboard.writeText(addr).then(() => show(true), () => show(false)); } catch (e) { show(false); }
+  }
+  closeDialog() {
+    this.setState({ dialog: null }, () => {
+      const start = document.querySelector('.startwrap .task');
+      if (start) start.focus();
+    });
+  }
+  shutDown() {
+    clearInterval(this.bootT);
+    this.setState({ start: false, themeOpen: false, dialog: null, shutdown: true }, () => {
+      const b = document.getElementById('shut-on');
+      if (b) b.focus();
+    });
+  }
+  setTheme(id) {
+    try { localStorage.setItem('akTheme', id); } catch (e) {}
+    this.setState({ theme: id });
+  }
+  restart() {
+    clearInterval(this.bootT);
+    clearTimeout(this.bootTo);
+    if (this.stepObs) { this.stepObs.disconnect(); this.stepObs = null; }
+    let reduce = false;
+    try { reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches; } catch (e) {}
+    this.setState({ start: false, themeOpen: false, dialog: null, shutdown: false, boot: 'typing', typed: 0, pct: 0, stepPlay: false, active: 'title' }, () => {
+      window.scrollTo(0, 0);
+      this.startBoot(reduce);
+    });
   }
   finishBoot() {
     clearInterval(this.bootT);
     clearTimeout(this.bootTo);
     if (this.onBootKey) { window.removeEventListener('keydown', this.onBootKey); this.onBootKey = null; }
     try { sessionStorage.setItem('akBooted', '1'); } catch (e) {}
-    if (this.state.boot !== 'done') this.setState({ boot: 'done' }, () => this.updateActive());
+    if (this.state.boot !== 'done') this.setState({ boot: 'done' }, () => { this.updateActive(); this.watchStepper(); });
   }
   typeCmd() {
     let i = 0;
@@ -656,9 +763,28 @@ class Component extends DCLogic {
       }
     }, 40);
   }
+  // Play the Magebit workflow animation once, the first time it scrolls into view.
+  watchStepper() {
+    if (this.stepObs || this.state.stepPlay) return;
+    const el = document.getElementById('stepper');
+    if (!el || !('IntersectionObserver' in window)) { this.setState({ stepPlay: true }); return; }
+    this.stepObs = new IntersectionObserver((entries) => {
+      if (entries.some((e) => e.isIntersecting)) {
+        this.stepObs.disconnect();
+        this.stepObs = null;
+        this.setState({ stepPlay: true });
+      }
+    }, { threshold: 0.6 });
+    this.stepObs.observe(el);
+  }
+  // On narrow screens the project details sit far below the list, so bring them into view.
+  scrollOnPhone(id) {
+    if (window.innerWidth >= 700) return;
+    this.scrollToWin(id);
+  }
   updateActive() {
     if (this.lockActive && Date.now() < this.lockActive) return;
-    const ids = ['title', 'welcome', 'work', 'projects', 'about', 'skills', 'edu', 'fun', 'contact'];
+    const ids = ['title', 'welcome', 'projects', 'work', 'about', 'skills', 'edu', 'fun', 'contact'];
     const bottom = window.innerHeight - 48; // above the taskbar
     let best = null, bestArea = 0;
     ids.forEach((id) => {
@@ -689,16 +815,17 @@ class Component extends DCLogic {
     window.removeEventListener('keydown', this.onDocKey);
     document.removeEventListener('pointerdown', this.onDocDown);
     cancelAnimationFrame(this.scrollRaf);
+    if (this.stepObs) this.stepObs.disconnect();
   }
   renderVals() {
     const PHOTO = '';
     const WINS = [
       { id: 'title', title: 'Portfolio.exe (title page)', short: 'Portfolio' },
       { id: 'welcome', title: 'Welcome.exe', short: 'Welcome' },
-      { id: 'work', title: 'Work Experience', short: 'Work' },
-      { id: 'job', title: '   Junior_Web_Developer.exe', short: 'Web Dev', child: true },
-      { id: 'other', title: '   Other_Experience.exe', short: 'Other jobs', child: true },
       { id: 'projects', title: 'C:\\Projects', short: 'Projects' },
+      { id: 'work', title: 'Work Experience', short: 'Work' },
+      { id: 'job', title: '   Magebit.doc - WordPad', short: 'Web Dev', child: true },
+      { id: 'other', title: '   Other_Jobs.txt - Notepad', short: 'Other jobs', child: true },
       { id: 'about', title: 'About_Me.txt', short: 'About' },
       { id: 'skills', title: 'Device Manager - Skills', short: 'Skills' },
       { id: 'edu', title: 'My Computer - Education', short: 'Education' },
@@ -706,11 +833,7 @@ class Component extends DCLogic {
       { id: 'contact', title: 'Guestbook & Contact', short: 'Guestbook' }
     ];
     const active = this.state.active;
-    const wins = WINS.map((x) => ({
-      ...x,
-      href: '#' + x.id,
-      go: () => this.setState({ start: false })
-    }));
+    const wins = WINS.map((x) => ({ ...x, href: '#' + x.id }));
     // The taskbar is the site navigation: one button per top-level window,
     // and the window you are reading shows as the pressed (active) button.
     const taskWins = wins.filter((x) => !x.child).map((x) => {
@@ -785,14 +908,14 @@ class Component extends DCLogic {
       selected: f.id === folder.id,
       bg: f.id === folder.id ? 'var(--title)' : 'transparent',
       fg: f.id === folder.id ? '#ffffff' : '#000000',
-      pick: () => this.setState({ folder: f.id, sel: f.files[0] })
+      pick: () => this.setState({ folder: f.id, sel: f.files[0] }, () => this.scrollOnPhone('proj-folder'))
     }));
     const files = folder.files.map((id) => ({
       ...P[id],
       selected: id === sel,
       bg: id === sel ? 'var(--title)' : 'transparent',
       fg: id === sel ? '#ffffff' : '#000000',
-      pick: () => this.setState({ sel: id })
+      pick: () => this.setState({ sel: id }, () => this.scrollOnPhone('proj-detail'))
     }));
     const detail = P[sel];
 
@@ -814,13 +937,34 @@ class Component extends DCLogic {
     }));
 
     const d = this.state.now;
+    // BSc started Sep 2024 and runs three years (36 months).
+    const degMonths = (d.getFullYear() - 2024) * 12 + d.getMonth() - 8;
+    const degYear = Math.min(3, Math.max(1, Math.floor(degMonths / 12) + 1));
+    const degPct = Math.round(Math.min(100, Math.max(4, (degMonths / 36) * 100)));
     const clock = String(d.getHours()).padStart(2, '0') + ':' + String(d.getMinutes()).padStart(2, '0');
     const name = this.state.gbName.trim() || 'a visitor';
     const mailHref = 'mailto:kocins.andrejs@gmail.com?subject=' + encodeURIComponent('Guestbook entry from ' + name) + '&body=' + encodeURIComponent(this.state.gbMsg);
 
+    // Desktop colour schemes for Start > Settings. The visitor's pick is kept in their browser.
+    const THEMES = [
+      { id: 'classic', name: 'Classic teal', desk: '#008080', title: '#000080' },
+      { id: 'slate', name: 'Slate blue', desk: '#3a6ea5', title: '#000080' },
+      { id: 'plum', name: 'Plum', desk: '#5b3f8c', title: '#4b0082' },
+      { id: 'forest', name: 'Forest', desk: '#2e5a3a', title: '#004d40' }
+    ];
+    const theme = THEMES.find((t) => t.id === this.state.theme) || null;
+    const curTheme = theme ? theme.id : 'classic';
+    const themes = THEMES.map((t) => ({
+      ...t,
+      on: t.id === curTheme ? 'true' : 'false',
+      mark: t.id === curTheme ? '●' : '',
+      pick: () => this.setTheme(t.id)
+    }));
+    const dialog = this.state.dialog;
+
     return {
-      deskColor: this.props.deskColor ?? '#008080',
-      titleColor: this.props.titleColor ?? '#000080',
+      deskColor: theme ? theme.desk : (this.props.deskColor ?? '#008080'),
+      titleColor: theme ? theme.title : (this.props.titleColor ?? '#000080'),
       booting: this.state.boot !== 'done',
       booted: this.state.boot === 'done',
       loading: this.state.boot === 'loading',
@@ -831,14 +975,28 @@ class Component extends DCLogic {
       // Path or URL to a 140×160 portrait (e.g. './photo.jpg'). Empty = the photo box is hidden.
       photoBg: PHOTO ? 'url("' + PHOTO + '")' : 'none',
       hasPhoto: !!PHOTO,
-      wins, taskWins, folders, folder, files, fileCount: files.length, folderCount: FOLDERS.length, detail, skillGroups, clock, mailHref,
+      stepCls: this.state.stepPlay ? 'play' : '',
+      degYear, degPct,
+      taskWins, folders, folder, files, fileCount: files.length, folderCount: FOLDERS.length, detail, skillGroups, clock, mailHref,
       gbName: this.state.gbName,
       gbMsg: this.state.gbMsg,
       setName: (e) => this.setState({ gbName: e.target.value }),
       setMsg: (e) => this.setState({ gbMsg: e.target.value }),
       startOpen: this.state.start,
       startCls: this.state.start ? 'on' : 'off',
-      toggleStart: () => this.setState({ start: !this.state.start })
+      toggleStart: () => this.setState({ start: !this.state.start, themeOpen: false }),
+      closeStart: () => this.setState({ start: false, themeOpen: false }),
+      themeOpen: this.state.themeOpen,
+      toggleTheme: () => this.setState({ themeOpen: !this.state.themeOpen }),
+      themes,
+      copyEmail: () => this.copyEmail(),
+      dialogOpen: !!dialog,
+      dialogFail: dialog === 'copyfail',
+      dialogText: dialog === 'copied' ? 'Copied kocins.andrejs@gmail.com to the clipboard.' : 'Couldn’t copy automatically. Select the address below and copy it.',
+      closeDialog: () => this.closeDialog(),
+      shutdown: this.state.shutdown,
+      shutDown: () => this.shutDown(),
+      restart: () => this.restart()
     };
   }
 }
